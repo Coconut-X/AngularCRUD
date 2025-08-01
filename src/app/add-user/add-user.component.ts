@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
+import {ReactiveFormsModule, FormControl, FormGroup, Validators} from '@angular/forms';
 import { UserServiceService } from '../user-service.service';
 @Component({
   selector: 'add-user',
@@ -18,11 +18,11 @@ export class AddUserComponent {
   @Output() close = new EventEmitter<void>();
 
     profileForm = new FormGroup({
-    name: new FormControl(''),
-    address: new FormControl(''),
-    mobile_number: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
+    mobile_number: new FormControl('', Validators.required),
   });
-  
+
   cancelForm(){
     this.isVisible = false;
     this.close.emit();
@@ -46,5 +46,5 @@ export class AddUserComponent {
     }
 
   }
-}
+} 
  

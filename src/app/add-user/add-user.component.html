@@ -9,15 +9,15 @@
       <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
         <div>
           <label for="name">Name:</label>
-          <input id="name" formControlName="name" type="text" placeholder="Enter name">
+          <input id="name" formControlName="name" type="text" placeholder="Enter name" required>
         </div>
         <div>
           <label for="address">Address:</label>
-          <input id="address" formControlName="address" type="text" placeholder="Enter address">
+          <input id="address" formControlName="address" type="text" placeholder="Enter address" required>
         </div>
         <div>
           <label for="mobile_number">Mobile Number:</label>
-          <input id="mobile_number" formControlName="mobile_number" type="text" placeholder="Enter mobile number">
+          <input id="mobile_number" formControlName="mobile_number" type="text" placeholder="Enter mobile number" required>
         </div>
         <div>
           <button type="submit">Add User</button>

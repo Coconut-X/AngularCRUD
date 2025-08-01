@@ -1,15 +1,15 @@
-<div [ngClass] = "showAddUserForm ? 'home-container-dull' : 'home-container'">
+<div [ngClass] = "makeHomeDull ? 'home-container-dull' : 'home-container'">
 
 <nav class="">
     <button (click)="toggleAddUserForm()">Add User</button>
     <button (click)="deleteSelectedUsers()">Delete Users</button>
-    <button>Edit User</button>
-</nav> 
+    <button (click)="toggleUpdateUserForm()">Update User</button>
+</nav>   
  
  
 <div class="custom-background">
         
-    @if(isEmpty) {
+    @if(isEmpty) { 
     <p class="text-red">No users found.</p>
     } @else { 
     <p>Users are available.</p>
@@ -28,7 +28,7 @@
     }
 
     <add-user [isVisible]="showAddUserForm" (close) = "handleFormClose()"></add-user>
-
+    <update-user [showIdForm]="showUpdateUserForm" (closeForm)="handleUpdateFormClose()"></update-user>
 </div> 
  
 </div>

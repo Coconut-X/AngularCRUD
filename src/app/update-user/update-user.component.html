@@ -1,1 +1,27 @@
-<p>update-user works!</p>
+@if(showIdForm){
+    <div class="formWindow">
+        <div class="formCard">
+
+            <form [formGroup] = "idForm"  class="idForm" >
+                <label for="userId">Enter User ID to Update:</label>
+                <input type="text" id="userId" formControlName="id" required>
+                <button type="button" (click)="onIdInput()">Submit</button>
+            </form>
+
+            <form [formGroup] = "profileForm" [ngClass] = "showUpdateForm? 'profileForm': 'hidden-form'">
+                <label for="name">Name:</label>
+                <input type="text" id="name" formControlName="name" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" formControlName="address" required>
+
+                <label for="mobile_number">Mobile Number:</label>
+                <input type="text" id="mobile_number" formControlName="mobile_number" required>
+
+                <button type="submit" (click)="updateUser()">Update User</button>
+            </form>
+
+        </div>
+
+    </div>
+}

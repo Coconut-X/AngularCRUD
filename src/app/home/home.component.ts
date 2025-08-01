@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { UserServiceService } from '../user-service.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { CommonModule } from '@angular/common';
+import { UpdateUserComponent } from '../update-user/update-user.component';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, AddUserComponent, CommonModule],
+  imports: [RouterOutlet, AddUserComponent, CommonModule, UpdateUserComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss', 
   standalone: true,
@@ -14,8 +15,11 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent {
 
   showAddUserForm: boolean = false;
+  showUpdateUserForm: boolean = false;
   showUserList: boolean = true;
   isEmpty: boolean = true;
+ 
+  makeHomeDull: boolean = false;
 
   users: any[] = [];
 
@@ -28,6 +32,19 @@ export class HomeComponent {
     } else {
       this.removeFromSelected(userId);
     }
+  }
+
+  toggleUpdateUserForm() {
+    console.log("Toggling update user form visibility.");
+    this.showUpdateUserForm = true;
+    this.makeHomeDull = true;
+  }
+
+  handleUpdateFormClose() {
+    this.showUpdateUserForm = false;
+    this.makeHomeDull = false;
+    this.fetchUsers(); // Refresh the user list after updating
+    console.log('Update form closed, user list refreshed.');
   }
 
   addToSelected(userId: string) {
@@ -70,7 +87,7 @@ export class HomeComponent {
 
   handleFormClose() {
     this.showAddUserForm = false;
-
+    this.makeHomeDull = false;
     this.fetchUsers(); // Refresh the user list after adding a new user
     console.log('Form closed, user list refreshed.');
   }
@@ -80,16 +97,18 @@ export class HomeComponent {
     this.userService.getUsers().subscribe((data: any[]) => {
       this.users = data;
       console.log("Users fetched:", this.users);
+      
+      // Check if the list is empty AFTER the data is received
+      if(this.users.length === 0) {
+        this.isEmpty = true;
+      } else {
+        this.isEmpty = false;
+      }
     });
-
-    if(this.users.length === 0) {
-      this.isEmpty = true;
-    } else {
-      this.isEmpty = false;
-    }
   }
 
   toggleAddUserForm() {
     this.showAddUserForm = !this.showAddUserForm;
+    this.makeHomeDull = this.showAddUserForm;
   }
 } 

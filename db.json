@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "address": "123 Main St",
+      "mobile_number": "555-1234"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "address": "456 Elm St",
+      "mobile_number": "555-5678"
+    },
+    {
+      "id": "3",
+      "name": "Alice Johnson",
+      "address": "789 Oak St",
+      "mobile_number": "555-8765"
+    },
+    {
+      "id": "7b27",
+      "name": "heheh",
+      "address": "statlife",
+      "mobile_number": "129292"
+    }
+  ]
+}

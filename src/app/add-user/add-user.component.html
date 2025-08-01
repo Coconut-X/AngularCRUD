@@ -1,0 +1,30 @@
+
+@if(isVisible){
+  <div class="formWindow">
+    <div class="formCard">
+      //align this button on top left of the form
+      <div style="text-align: left; margin-bottom: 10px;"> 
+        <button (click) = "cancelForm()">Cancel</button>
+      </div>
+      <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
+        <div>
+          <label for="name">Name:</label>
+          <input id="name" formControlName="name" type="text" placeholder="Enter name">
+        </div>
+        <div>
+          <label for="address">Address:</label>
+          <input id="address" formControlName="address" type="text" placeholder="Enter address">
+        </div>
+        <div>
+          <label for="mobile_number">Mobile Number:</label>
+          <input id="mobile_number" formControlName="mobile_number" type="text" placeholder="Enter mobile number">
+        </div>
+        <div>
+          <button type="submit">Add User</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+}

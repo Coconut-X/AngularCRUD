@@ -1,0 +1,55 @@
+// 1. Import Bootstrap's functions first (this is often needed for variable calculations)
+@import "bootstrap/scss/functions";
+
+// 2. Import Bootstrap's default variables (so you can use them or override them)
+@import "bootstrap/scss/variables";
+
+// 3. DEFINE YOUR CUSTOM VARIABLES HERE
+$background-color: #7dbeff;
+// Example of overriding a Bootstrap variable:
+// $primary: #900; 
+
+// 4. Create your custom classes that use your variables
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $background-color;
+  padding: 20px;
+  color: #3c0b0b;
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.home-container-dull{
+    @extend .home-container;
+    background-color: rgba(31, 30, 30, 0.781);
+    z-index: -1;
+}
+
+.custom-background {
+  background-color: $background-color;
+  padding: 20px;
+  color: #3c0b0b;
+  border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+
+.full-window-dull{
+  background-color: rgba(31, 30, 30, 0.781);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+
+
+// 5. Finally, import the main Bootstrap file.
+// This will combine Bootstrap's CSS with your overrides and custom classes.
+@import "bootstrap/scss/bootstrap"; 

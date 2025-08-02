@@ -1,6 +1,10 @@
 
 .hidden-form{
-    display: none;
+    /*should be hidden but take place*/
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .formWindow {
@@ -30,6 +34,7 @@
 }
 
 .profileForm {
+
     display: flex;
     flex-direction: column;
     gap: 10px;

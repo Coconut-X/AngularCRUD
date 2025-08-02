@@ -70,15 +70,12 @@ export class UpdateUserComponent {
       const userData = this.profileForm.value;
       const id = this.idForm.value.id;
       
-      // Include the ID in the user data for the update
       const userDataWithId = { ...userData, id: id };
       
       this.userService.updateUser(userDataWithId).subscribe({
         next: () => {
           console.log('User updated successfully');
-          alert('User updated successfully!');
           
-          // Reset form and emit close event only after successful update
           this.showUpdateForm = false;
           this.showIdForm = false;
           this.profileForm.reset();

@@ -4,7 +4,11 @@
 // 2. Import Bootstrap's default variables (so you can use them or override them)
 @import "bootstrap/scss/variables";
 
-$background-color: #7dbeff;
+$background-color: #ffffff;
+$dull-green: #96f655;
+$light-red: #ff7373;
+$dark-red: #c53636;
+$sky-blue: #87ceeb;
 
 .home-container {
   display: flex;
@@ -17,6 +21,77 @@ $background-color: #7dbeff;
   width: 100%;
 }
 
+.navbar{
+  display: flex;
+  flex-direction: row;
+}
+
+.addUserButton {
+  background-color: greenyellow;
+  margin: 10px;
+  border-radius: 20px;
+
+  // Add these lines for alignment
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; // This adds a small space between the icon and "New"
+}
+
+.addUserButton svg {
+  width: 1em; // Sizes the icon relative to the font size
+  height: 1em;
+}
+
+.deleteUserButton {
+  background-color: $light-red;
+  margin: 10px;
+
+  // --- ADD THESE LINES ---
+  display: inline-flex;  // Use flex to align children (icon and text)
+  align-items: center;    // Vertically center the icon and text
+  justify-content: center; // Horizontally center them
+  gap: 8px;               // Add space between the icon and text
+
+  // --- MOVE BORDER-RADIUS HERE ---
+  border-radius: 20px;
+}
+
+.deleteUserButtonDark{
+  @extend .deleteUserButton;
+  background-color: $dark-red;
+}
+
+// --- ADD THIS NEW RULE FOR THE SVG ---
+.deleteUserButton svg {
+  width: 16px;  // Give the SVG a specific size so it doesn't disappear
+  height: 16px;
+  fill: currentColor; // Makes the SVG inherit the button's text color
+}
+
+
+.updateUserButton{
+  background-color: $sky-blue;
+  margin: 10px;
+}
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.listTitle {
+  display: flex;
+  width: 100%;
+  border: 1px solid #ccc;
+  flex-direction: row;
+}
+
+.listTitle p {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+}
+
 .userListContainer {
   display: flex;
   flex-direction: column;
@@ -27,10 +102,15 @@ $background-color: #7dbeff;
 .userListItem{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
 }
 
+
+.userListItem p {
+  flex: 1; /* This allows the paragraph to take up available space */
+  text-align: left; /* Aligns the text to the left */
+  margin: 0; /* Removes default margin */
+}
 
 
 .home-container-dull{

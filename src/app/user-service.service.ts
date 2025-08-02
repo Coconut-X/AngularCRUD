@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {AddUserComponent} from './add-user/add-user.component';
 import { HomeComponent } from './home/home.component';
 
@@ -31,6 +31,13 @@ export class UserServiceService {
 
   updateUser(user: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${user.id}`, user);
+  }
+
+  //count users without fetching all user data
+  countUsers(): Observable<number> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(users => users.length)
+    );
   }
 
 }

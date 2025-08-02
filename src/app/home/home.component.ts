@@ -4,6 +4,8 @@ import { UserServiceService } from '../user-service.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { CommonModule } from '@angular/common';
 import { UpdateUserComponent } from '../update-user/update-user.component';
+import { Observable } from 'rxjs';
+import { get } from 'http';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,9 @@ import { UpdateUserComponent } from '../update-user/update-user.component';
   styleUrl: './home.component.scss', 
   standalone: true,
 })
-export class HomeComponent {
+export class HomeComponent { 
+
+  atleastOneUserSelected: boolean = false;
 
   showAddUserForm: boolean = false;
   showUpdateUserForm: boolean = false;
@@ -20,15 +24,36 @@ export class HomeComponent {
   isEmpty: boolean = true;
  
   makeHomeDull: boolean = false;
+  totalUsers = 0;
 
   users: any[] = [];
 
   selectedUsers: string[] = []; //store selected users ids
 
+  // Add this new method inside your HomeComponent class
+
+selectAll(event: any) {
+
+  if( event.target.checked) {
+    this.users.forEach(user => {
+      this.addToSelected(user.id);
+    });
+
+    this.fetchUsers(); // Refresh the user list after selecting all
+  } else {
+    this.selectedUsers = [];
+    this.atleastOneUserSelected = false;
+  }
+}
+
+  getTotalUsersCount(): Observable<number> {
+    return this.userService.countUsers();
+  }
 
   onCheckBoxChange(event: any, userId: string) {
     if (event.target.checked) {
       this.addToSelected(userId);
+      this.totalUsers++;
     } else {
       this.removeFromSelected(userId);
     }
@@ -51,7 +76,7 @@ export class HomeComponent {
     if (!this.selectedUsers.includes(userId)) {
       this.selectedUsers.push(userId);
     }
-
+    this.atleastOneUserSelected = this.selectedUsers.length > 0;
     console.log("Selected users:", this.selectedUsers);
   } 
 
@@ -60,7 +85,7 @@ export class HomeComponent {
       if (index > -1) {
         this.selectedUsers.splice(index, 1);
       }
-
+      this.atleastOneUserSelected = this.selectedUsers.length > 0;
       console.log("Selected users after removal:", this.selectedUsers);
   }
 
@@ -70,11 +95,12 @@ export class HomeComponent {
       for(const userId of this.selectedUsers) {
         this.userService.deleteUser(userId).subscribe(() => {
           console.log(`User with ID ${userId} deleted successfully.`);
-          this.fetchUsers(); // Refresh the user list after deletion
+          this.totalUsers--;
         }, error => {
           console.error(`Error deleting user with ID ${userId}:`, error);
         });
       }
+      this.fetchUsers(); // Refresh the user list after deletion
       this.selectedUsers = [];
     }
   }

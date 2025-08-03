@@ -17,6 +17,7 @@ import { get } from 'http';
 export class HomeComponent { 
 
   atleastOneUserSelected: boolean = false;
+  allUsersSelected: boolean = false; // Track select all checkbox state
 
   showAddUserForm: boolean = false;
   showUpdateUserForm: boolean = false;
@@ -33,18 +34,28 @@ export class HomeComponent {
   // Add this new method inside your HomeComponent class
 
 selectAll(event: any) {
-
-  if( event.target.checked) {
-    this.users.forEach(user => {
-      this.addToSelected(user.id);
-    });
-
-    this.fetchUsers(); // Refresh the user list after selecting all
-  } else {
+  this.allUsersSelected = event.target.checked;
+  
+  if(this.allUsersSelected) {
+    // Select all users
     this.selectedUsers = [];
-    this.atleastOneUserSelected = false;
+    this.users.forEach(user => {
+      this.selectedUsers.push(user.id);
+    });
+  } else {
+    // Deselect all users
+    this.selectedUsers = [];
   }
+  
+  this.atleastOneUserSelected = this.selectedUsers.length > 0;
+  console.log("Select all toggled. Selected users:", this.selectedUsers);
 }
+
+  // Helper method to update select all checkbox state
+  updateSelectAllState() {
+    this.allUsersSelected = this.users.length > 0 && this.selectedUsers.length === this.users.length;
+    this.atleastOneUserSelected = this.selectedUsers.length > 0;
+  }
 
   getTotalUsersCount(): Observable<number> {
     return this.userService.countUsers();
@@ -53,7 +64,6 @@ selectAll(event: any) {
   onCheckBoxChange(event: any, userId: string) {
     if (event.target.checked) {
       this.addToSelected(userId);
-      this.totalUsers++;
     } else {
       this.removeFromSelected(userId);
     }
@@ -76,7 +86,7 @@ selectAll(event: any) {
     if (!this.selectedUsers.includes(userId)) {
       this.selectedUsers.push(userId);
     }
-    this.atleastOneUserSelected = this.selectedUsers.length > 0;
+    this.updateSelectAllState();
     console.log("Selected users:", this.selectedUsers);
   } 
 
@@ -85,7 +95,7 @@ selectAll(event: any) {
       if (index > -1) {
         this.selectedUsers.splice(index, 1);
       }
-      this.atleastOneUserSelected = this.selectedUsers.length > 0;
+      this.updateSelectAllState();
       console.log("Selected users after removal:", this.selectedUsers);
   }
 
@@ -95,13 +105,12 @@ selectAll(event: any) {
       for(const userId of this.selectedUsers) {
         this.userService.deleteUser(userId).subscribe(() => {
           console.log(`User with ID ${userId} deleted successfully.`);
-          this.totalUsers--;
         }, error => {
           console.error(`Error deleting user with ID ${userId}:`, error);
         });
       }
-      this.fetchUsers(); // Refresh the user list after deletion
       this.selectedUsers = [];
+      this.fetchUsers(); // Refresh the user list after deletion
     }
   }
 
@@ -127,8 +136,13 @@ selectAll(event: any) {
       // Check if the list is empty AFTER the data is received
       if(this.users.length === 0) {
         this.isEmpty = true;
+        this.selectedUsers = [];
+        this.allUsersSelected = false;
+        this.atleastOneUserSelected = false;
       } else {
         this.isEmpty = false;
+        // Update select all state based on current selections
+        this.updateSelectAllState();
       }
     });
   }

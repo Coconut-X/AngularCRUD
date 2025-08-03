@@ -28,6 +28,18 @@ export class UpdateUserComponent {
     mobile_number: new FormControl('', Validators.required),
   });
 
+  closeUpdateForm() {
+    // Reset forms and hide the form
+    this.showUpdateForm = false;
+    this.showIdForm = false;
+    this.profileForm.reset();
+    this.idForm.reset();
+    
+    // Emit close event to parent component
+    this.closeForm.emit();
+    console.log('Update form closed via cross button.');
+  }
+
   onIdInput() {
     const id = this.idForm.value.id;
     if (id) {

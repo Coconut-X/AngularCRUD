@@ -17,83 +17,118 @@ $button-border-radius: 5px;
 .home-container {
   display: flex;
   flex-direction: column;
-  background-color: $background-color;
-  padding: 20px;
-  color: #3c0b0b;
-  border-radius: $button-border-radius;
-  text-align: center;
+  background-color: #f8f9fa;
+  padding: 30px;
+  color: #212529;
+  border-radius: 12px;
+  min-height: 100vh;
   width: 100%;
 }
 
 .userManagement {
-
-  flex : 15;
+  flex: 1;
   text-align: left;
-  vertical-align: middle;
-  font-size: 1.5em;
-  font-weight: bold;
-  
+  display: flex;
+  align-items: center;
+}
+
+.userManagement p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #212529;
 }
 
 .navbar{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .navbar button{
-  vertical-align: middle;
-  box-shadow: -2px 2px black;
-  font: bold;
-  flex:1
+  padding: 12px 20px;
+  border: 2px solid #212529;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .navbar button > span {
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .addUserButton {
-  background-color: greenyellow;
-  margin: 10px;
-  border-radius: $button-border-radius;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  background-color: #212529;
+  color: #ffffff;
+}
+
+.addUserButton:hover {
+  background-color: #ffffff;
+  color: #212529;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .addUserButton svg {
-  width: 1em;
-  height: 1em;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 .deleteUserButton {
-  background-color: $light-red;
-  margin: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: $button-border-radius;
+  background-color: #ffffff;
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.deleteUserButton:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-color: #dc3545;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
 }
 
 .deleteUserButtonDark{
-  @extend .deleteUserButton;
-  background-color: $dark-red;
+  background-color: #dc3545;
+  color: #ffffff;
+  border-color: #dc3545;
 }
 
-.deleteUserButton svg {
+.deleteUserButtonDark:hover {
+  background-color: #ffffff;
+  color: #dc3545;
+  border-color: #dc3545;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+}
+
+.deleteUserButton svg,
+.deleteUserButtonDark svg {
   width: 16px;
   height: 16px;
   fill: currentColor;
 }
 
 .updateUserButton {
-  background-color: $sky-blue;
-  margin: 10px;
-  border-radius: $button-border-radius;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  background-color: #ffffff;
+  color: #212529;
+  border-color: #212529;
+}
+
+.updateUserButton:hover {
+  background-color: #212529;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .updateUserButton svg {
@@ -133,33 +168,77 @@ $button-border-radius: 5px;
 
 .userListContainer {
   font-family: 'Nunito', sans-serif;
-  border: 5px solid black;
-  box-shadow: -7px 7px black  ;
-  //color of box shadow
-  border-radius: 10px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e5e5;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-top: 20px;
+  overflow: hidden;
+}
+
+.listTitle {
+  display: flex;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  flex-direction: row;
+  font-weight: 600;
+  color: #212529;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.listTitle p {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.listTitle input[type="checkbox"] {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  accent-color: #212529;
 }
 
 .userListItem{
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap : 10px;
-  padding: 10px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f3f4;
+  transition: background-color 0.2s ease;
 }
 
+.userListItem:last-child {
+  border-bottom: none;
+}
+
+.userListItem:hover {
+  background-color: #f8f9fa;
+}
 
 .userListItem p {
-  flex: 1; /* This allows the paragraph to take up available space */
-  text-align: left; /* Aligns the text to the left */
-  margin: 0; /* Removes default margin */
-  font-size: 1.2em; /* Adjusts the font size */
-  color: #272626;
-  border: 1px solid #ccc;
+  flex: 1;
+  text-align: left;
+  margin: 0;
+  font-size: 14px;
+  color: #495057;
+  font-weight: 400;
+  border: none;
+}
 
+.userListItem input[type="checkbox"] {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  accent-color: #212529;
 }
 
 
@@ -170,12 +249,10 @@ $button-border-radius: 5px;
 }
 
 .custom-background {
-  background-color: $background-color;
-  padding: 20px;
-  color: #3c0b0b;
-  border-radius: 5px;
-    text-align: center;
-    width: 100%;
+  background-color: transparent;
+  padding: 0;
+  color: #212529;
+  width: 100%;
 }
 
 

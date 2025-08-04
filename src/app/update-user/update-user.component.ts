@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserServiceService } from '../user-service.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+
 @Component({
   selector: 'update-user',
   imports: [CommonModule, ReactiveFormsModule],
@@ -10,17 +11,13 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   styleUrl: './update-user.component.scss',
   standalone: true,
 })
-export class UpdateUserComponent {
+export class UpdateUserComponent implements OnChanges {
 
   constructor(private userService: UserServiceService) {}
 
-  @Input() showIdForm: boolean = false;
+  @Input() isVisible: boolean = false;
+  @Input() selectedUser: any = null;
   @Output() closeForm = new EventEmitter<void>();
-  showUpdateForm: boolean = false;
-
-  idForm = new FormGroup({
-    id: new FormControl('',Validators.required),
-  });
 
   profileForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -28,71 +25,41 @@ export class UpdateUserComponent {
     mobile_number: new FormControl('', Validators.required),
   });
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectedUser'] && this.selectedUser) {
+      this.fillForm();
+    }
+  }
+
   closeUpdateForm() {
-    // Reset forms and hide the form
-    this.showUpdateForm = false;
-    this.showIdForm = false;
+    // Reset form and hide it
     this.profileForm.reset();
-    this.idForm.reset();
     
     // Emit close event to parent component
     this.closeForm.emit();
     console.log('Update form closed via cross button.');
   }
 
-  onIdInput() {
-    const id = this.idForm.value.id;
-    if (id) {
-      this.userService.getUserById(id).subscribe({
-        next: (user) => {
-          if (user) {
-            // User found, show update form and fill it
-            this.showUpdateForm = true;
-            this.fillForm(id);
-          } else {
-            alert('User not found');
-          }
-        },
-        error: (error) => {
-          console.error('Error fetching user:', error);
-          alert('User not found');
-        }
+  fillForm() {
+    if (this.selectedUser) {
+      this.profileForm.patchValue({
+        name: this.selectedUser.name,
+        address: this.selectedUser.address,
+        mobile_number: this.selectedUser.mobile_number
       });
-    } else {
-      alert('Please enter a valid User ID');
     }
   }
 
-  fillForm(id:string){
-    this.userService.getUserById(id).subscribe(user => {
-      if (user) {
-        this.profileForm.patchValue({
-          name: user.name,
-          address: user.address,
-          mobile_number: user.mobile_number
-        });
-      } else {
-        alert('User not found');
-      }
-    });
-  }
-
   updateUser(){
-    if (this.profileForm.valid) {
+    if (this.profileForm.valid && this.selectedUser) {
       const userData = this.profileForm.value;
-      const id = this.idForm.value.id;
-      
-      const userDataWithId = { ...userData, id: id };
+      const userDataWithId = { ...userData, id: this.selectedUser.id };
       
       this.userService.updateUser(userDataWithId).subscribe({
         next: () => {
           console.log('User updated successfully');
           
-          this.showUpdateForm = false;
-          this.showIdForm = false;
           this.profileForm.reset();
-          this.idForm.reset();
-
           this.closeForm.emit();
           console.log('Update form closed, user list refreshed.');
         },
@@ -106,5 +73,4 @@ export class UpdateUserComponent {
       alert('Form is invalid');
     }
   }
-
 }

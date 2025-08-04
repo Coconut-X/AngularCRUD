@@ -131,7 +131,21 @@ $button-border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.updateUserButton svg {
+.updateUserButtonDark {
+  background-color: #212529;
+  color: #ffffff;
+  border-color: #212529;
+}
+
+.updateUserButtonDark:hover {
+  background-color: #ffffff;
+  color: #212529;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.updateUserButton svg,
+.updateUserButtonDark svg {
   width: 16px;
   height: 16px;
   fill: currentColor;

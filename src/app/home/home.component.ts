@@ -4,7 +4,7 @@ import { UserServiceService } from '../user-service.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { CommonModule } from '@angular/common';
 import { UpdateUserComponent } from '../update-user/update-user.component';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { get } from 'http';
 
 @Component({
@@ -18,6 +18,7 @@ export class HomeComponent {
 
   atleastOneUserSelected: boolean = false;
   allUsersSelected: boolean = false; // Track select all checkbox state
+  exactlyOneUserSelected: boolean = false; // Track if exactly one user is selected
 
   showAddUserForm: boolean = false;
   showUpdateUserForm: boolean = false;
@@ -30,6 +31,7 @@ export class HomeComponent {
   users: any[] = [];
 
   selectedUsers: string[] = []; //store selected users ids
+  selectedUserForUpdate: any = null; // Store the user data for update
 
   // Add this new method inside your HomeComponent class
 
@@ -47,7 +49,7 @@ selectAll(event: any) {
     this.selectedUsers = [];
   }
   
-  this.atleastOneUserSelected = this.selectedUsers.length > 0;
+  this.updateSelectAllState();
   console.log("Select all toggled. Selected users:", this.selectedUsers);
 }
 
@@ -55,6 +57,15 @@ selectAll(event: any) {
   updateSelectAllState() {
     this.allUsersSelected = this.users.length > 0 && this.selectedUsers.length === this.users.length;
     this.atleastOneUserSelected = this.selectedUsers.length > 0;
+    this.exactlyOneUserSelected = this.selectedUsers.length === 1;
+    
+    // Update selected user for update functionality
+    if (this.exactlyOneUserSelected) {
+      const selectedUserId = this.selectedUsers[0];
+      this.selectedUserForUpdate = this.users.find(user => user.id === selectedUserId);
+    } else {
+      this.selectedUserForUpdate = null;
+    }
   }
 
   getTotalUsersCount(): Observable<number> {
@@ -71,8 +82,12 @@ selectAll(event: any) {
 
   toggleUpdateUserForm() {
     console.log("Toggling update user form visibility.");
-    this.showUpdateUserForm = true;
-    this.makeHomeDull = true;
+    if (this.exactlyOneUserSelected && this.selectedUserForUpdate) {
+      this.showUpdateUserForm = true;
+      this.makeHomeDull = true;
+    } else {
+      alert('Please select exactly one user to update.');
+    }
   }
 
   handleUpdateFormClose() {
@@ -102,15 +117,24 @@ selectAll(event: any) {
   deleteSelectedUsers() {
     console.log("Deleting selected users:", this.selectedUsers);
     if(this.selectedUsers.length > 0) {
-      for(const userId of this.selectedUsers) {
-        this.userService.deleteUser(userId).subscribe(() => {
-          console.log(`User with ID ${userId} deleted successfully.`);
-        }, error => {
-          console.error(`Error deleting user with ID ${userId}:`, error);
-        });
-      }
-      this.selectedUsers = [];
-      this.fetchUsers(); // Refresh the user list after deletion
+      // Create an array of delete observables
+      const deleteObservables = this.selectedUsers.map(userId => 
+        this.userService.deleteUser(userId)
+      );
+      
+      // Use forkJoin to wait for all delete operations to complete
+      forkJoin(deleteObservables).subscribe({
+        next: (results) => {
+          console.log("All users deleted successfully:", results);
+          this.selectedUsers = [];
+          this.fetchUsers(); // Refresh the user list after all deletions
+        },
+        error: (error) => {
+          console.error("Error during delete operations:", error);
+          this.selectedUsers = [];
+          this.fetchUsers(); // Refresh even if there were errors
+        }
+      });
     }
   }
 

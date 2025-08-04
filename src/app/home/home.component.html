@@ -18,7 +18,7 @@
         <span>Delete</span>
     </button>
 
-    <button (click)="toggleUpdateUserForm()" class="updateUserButton">
+    <button (click)="toggleUpdateUserForm()" [ngClass]="exactlyOneUserSelected ? 'updateUserButtonDark' : 'updateUserButton'">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
             <path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-45.2-45.2c-12.5-12.5-32.8-12.5-45.3 0l-39.4 39.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l39.4-39.4c12.5-12.5 12.5-32.8 0-45.3z"/>
         </svg>
@@ -41,7 +41,7 @@
             <p>Address</p>
             <p>Mobile Number</p>
         </div>
-        @for(user of users; track user.id) {
+        @for(user of users.slice().reverse(); track user.id) {
         <div class="userListItem">
             <input type="checkbox" (change)="onCheckBoxChange($event, user.id)" [checked]="selectedUsers.includes(user.id)" style="flex:0.1;">
             <p style="flex:0.25">{{ user.id }}</p>
@@ -54,7 +54,7 @@
     }
 
     <add-user [isVisible]="showAddUserForm" (close) = "handleFormClose()"></add-user>
-    <update-user [showIdForm]="showUpdateUserForm" (closeForm)="handleUpdateFormClose()"></update-user>
+    <update-user [isVisible]="showUpdateUserForm" [selectedUser]="selectedUserForUpdate" (closeForm)="handleUpdateFormClose()"></update-user>
 </div> 
  
 </div>

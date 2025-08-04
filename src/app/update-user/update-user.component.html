@@ -1,4 +1,4 @@
-@if(showIdForm){
+@if(isVisible && selectedUser){
     <div class="formWindow">
         <div class="formCard">
             <button type="button" class="close-button" (click)="closeUpdateForm()">
@@ -7,26 +7,27 @@
                 </svg>
             </button>
 
-            <form [formGroup] = "idForm"  class="idForm" >
-                <label for="userId">Enter User ID to Update:</label>
-                <input type="text" id="userId" formControlName="id" required>
-                <button type="button" (click)="onIdInput()">Submit</button>
-            </form>
+            <h3>Update User (ID: {{ selectedUser.id }})</h3>
 
-            <form [formGroup] = "profileForm" [ngClass] = "showUpdateForm? 'profileForm': 'hidden-form'">
-                <label for="name">Name:</label>
-                <input type="text" id="name" formControlName="name" required>
+            <form [formGroup]="profileForm" class="profileForm">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" formControlName="name" required>
+                </div>
 
-                <label for="address">Address:</label>
-                <input type="text" id="address" formControlName="address" required>
+                <div>
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" formControlName="address" required>
+                </div>
 
-                <label for="mobile_number">Mobile Number:</label>
-                <input type="text" id="mobile_number" formControlName="mobile_number" required>
+                <div>
+                    <label for="mobile_number">Mobile Number:</label>
+                    <input type="text" id="mobile_number" formControlName="mobile_number" required>
+                </div>
 
                 <button type="submit" (click)="updateUser()">Update User</button>
             </form>
 
         </div>
-
     </div>
 }

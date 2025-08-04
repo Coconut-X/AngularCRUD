@@ -3,15 +3,16 @@ import { RouterOutlet } from '@angular/router';
 import { UserServiceService } from '../user-service.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { UpdateUserComponent } from '../update-user/update-user.component';
 import { Observable, forkJoin } from 'rxjs';
 import { get } from 'http';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, AddUserComponent, CommonModule, UpdateUserComponent],
+  imports: [RouterOutlet, AddUserComponent, CommonModule, FormsModule, UpdateUserComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss', 
+  styleUrl: './home-new.component.scss', 
   standalone: true,
 })
 export class HomeComponent { 
@@ -29,23 +30,38 @@ export class HomeComponent {
   totalUsers = 0;
 
   users: any[] = [];
+  filteredUsers: any[] = []; // For search functionality
+  searchKeyword: string = ''; // Search input
 
-  selectedUsers: string[] = []; //store selected users ids
-  selectedUserForUpdate: any = null; // Store the user data for update
+  selectedUsers: string[] = []; 
+  selectedUserForUpdate: any = null; 
 
-  // Add this new method inside your HomeComponent class
+  onSearch() {
+    if (this.searchKeyword.trim() === '') {
+      this.filteredUsers = [...this.users];
+    } else {
+      this.filteredUsers = this.users.filter(user => 
+        user.name.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
+        user.address.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
+        user.mobile_number.includes(this.searchKeyword) ||
+        user.id.toString().includes(this.searchKeyword) ||
+        (user.email && user.email.toLowerCase().includes(this.searchKeyword.toLowerCase())) ||
+        (user.description && user.description.toLowerCase().includes(this.searchKeyword.toLowerCase())) ||
+        (user.telephone && user.telephone.includes(this.searchKeyword))
+      );
+    }
+  }
 
 selectAll(event: any) {
   this.allUsersSelected = event.target.checked;
   
   if(this.allUsersSelected) {
-    // Select all users
     this.selectedUsers = [];
     this.users.forEach(user => {
       this.selectedUsers.push(user.id);
     });
   } else {
-    // Deselect all users
+
     this.selectedUsers = [];
   }
   
@@ -53,13 +69,11 @@ selectAll(event: any) {
   console.log("Select all toggled. Selected users:", this.selectedUsers);
 }
 
-  // Helper method to update select all checkbox state
   updateSelectAllState() {
     this.allUsersSelected = this.users.length > 0 && this.selectedUsers.length === this.users.length;
     this.atleastOneUserSelected = this.selectedUsers.length > 0;
     this.exactlyOneUserSelected = this.selectedUsers.length === 1;
     
-    // Update selected user for update functionality
     if (this.exactlyOneUserSelected) {
       const selectedUserId = this.selectedUsers[0];
       this.selectedUserForUpdate = this.users.find(user => user.id === selectedUserId);
@@ -93,7 +107,7 @@ selectAll(event: any) {
   handleUpdateFormClose() {
     this.showUpdateUserForm = false;
     this.makeHomeDull = false;
-    this.fetchUsers(); // Refresh the user list after updating
+    this.fetchUsers();
     console.log('Update form closed, user list refreshed.');
   }
 
@@ -155,6 +169,7 @@ selectAll(event: any) {
     console.log("Fetching users...");
     this.userService.getUsers().subscribe((data: any[]) => {
       this.users = data;
+      this.filteredUsers = [...data]; // Initialize filtered users
       console.log("Users fetched:", this.users);
       
       // Check if the list is empty AFTER the data is received

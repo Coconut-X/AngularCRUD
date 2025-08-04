@@ -1,9 +1,7 @@
-// Import Bootstrap's functions and variables
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-// Main container
 .home-container {
   min-height: 100vh;
   background-color: #f8fafc;
@@ -17,12 +15,15 @@
   z-index: -1;
 }
 
-// Header section
 .header-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  border-radius: 8px;
 }
 
 .page-title h1 {
@@ -38,76 +39,95 @@
   font-size: 24px;
 }
 
-// Action buttons
 .action-buttons {
   display: flex;
   gap: 12px;
 }
 
 .btn {
-  display: inline-flex;
-  align-items: center;
+  display: inline-flex !important;
+  align-items: center !important;
   gap: 8px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  opacity: 0.7;
+  padding: 10px 16px !important;
+  border-radius: 5px !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important; 
+  opacity: 1 !important;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
   
   &.active {
-    opacity: 1;
+    opacity: 1 !important;
   }
   
   &.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
   }
 }
 
 .btn-success {
-  background-color: #10b981;
-  color: white;
+  background-color: #22c45e !important;
+  color: #ffffff !important;
   
   &:hover:not(.disabled) {
-    background-color: #059669;
+    background-color: #1a9d4a !important;
     transform: translateY(-1px);
   }
 }
 
 .btn-danger {
-  background-color: #ef4444;
-  color: white;
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  
+  &.active {
+    background-color: #f87171 !important;
+    opacity: 1 !important;
+  }
   
   &:hover:not(.disabled) {
-    background-color: #dc2626;
+    background-color: #dc2626 !important;
     transform: translateY(-1px);
+  }
+  
+  &.active:hover {
+    background-color: #f56565 !important;
   }
 }
 
 .btn-secondary {
-  background-color: #6b7280;
-  color: white;
+  background-color: #6b7280 !important;
+  color: #ffffff !important;
   
   &:hover:not(.disabled) {
-    background-color: #4b5563;
+    background-color: #4b5563 !important;
     transform: translateY(-1px);
   }
 }
 
-// Search section
+
 .search-section {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
+  width: 100%;
+  max-width: none;
+
 }
+
 
 .search-container {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: none;
+  width: 100%;
 }
 
 .search-icon {
@@ -121,11 +141,13 @@
 
 .search-input {
   width: 100%;
+  min-width: 0;
   padding: 12px 12px 12px 40px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
   background-color: white;
+  box-sizing: border-box;
   
   &:focus {
     outline: none;
@@ -175,7 +197,12 @@
   font-weight: 600;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
   position: relative;
+  
+  &:last-child {
+    border-right: none;
+  }
   
   &.sortable {
     cursor: pointer;
@@ -199,7 +226,12 @@
 .users-table td {
   padding: 16px;
   border-bottom: 1px solid #f3f4f6;
+  border-right: 1px solid #e5e7eb;
   color: #374151;
+  
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .users-table tbody tr {
@@ -215,10 +247,43 @@
 }
 
 .users-table input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #3b82f6;
+  width: 20px;
+  height: 20px;
+  accent-color: #9ca3af;
   cursor: pointer;
+  border-radius: 6px;
+  border: 2px solid #d1d5db;
+  background-color: #f9fafb;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  
+  &:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+  }
+  
+  &:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  &:hover {
+    border-color: #9ca3af;
+    background-color: #f3f4f6;
+  }
+  
+  &:checked:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+  }
 }
 
 // Empty state

@@ -1,16 +1,67 @@
 {
   "users": [
     {
-      "id": "d3c7",
-      "name": "Ali Imrannn",
-      "address": "Lahore",
-      "mobile_number": "03008194722"
+      "id": "1",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "mobile_number": "555-1234",
+      "description": "Software Engineer",
+      "telephone": "555-5678",
+      "address": "123 Main St, Springfield, IL"
     },
     {
-      "name": "aaaaaaa",
-      "address": "dhaaa",
-      "mobile_number": "1212222",
-      "id": "e62f"
+      "id": "2",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "mobile_number": "555-2345",
+      "description": "Data Scientist",
+      "telephone": "555-6789",
+      "address": "456 Elm St, Metropolis, NY"
+    },
+    {
+      "id": "3",
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "mobile_number": "555-3456",
+      "description": "Product Manager",
+      "telephone": "555-7890",
+      "address": "789 Oak St, Gotham, NJ"
+    },
+    {
+      "id": "4",
+      "name": "Bob Brown",
+      "email": "bob.brown@example.com",
+      "mobile_number": "555-4567",
+      "description": "UX Designer",
+      "telephone": "555-8901",
+      "address": "101 Pine St, Star City, CA"
+    },
+    {
+      "id": "5",
+      "name": "Charlie Davis",
+      "email": "charlie.davis@example.com",
+      "mobile_number": "555-5678",
+      "description": "DevOps Engineer",
+      "telephone": "555-9012",
+      "address": "202 Maple St, Central City, TX"
+    },
+    {
+      "id": "6",
+      "name": "Eva Green",
+      "email": "eva.green@example.com",
+      "mobile_number": "555-6789",
+      "description": "Frontend Developer",
+      "telephone": "555-0123",
+      "address": "303 Birch St, Coast City, FL"
+    },
+    {
+      "id": "9a39",
+      "name": "Ali Imran",
+      "email": "aliimranqureshi768@gmail.com",
+      "mobile_number": "03008194763",
+      "address": "Lahore",
+      "description": "angular developer",
+      "telephone": "03008194763"
     }
   ]
 }

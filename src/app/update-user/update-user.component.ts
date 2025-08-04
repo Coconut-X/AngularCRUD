@@ -16,13 +16,16 @@ export class UpdateUserComponent implements OnChanges {
   constructor(private userService: UserServiceService) {}
 
   @Input() isVisible: boolean = false;
-  @Input() selectedUser: any = null;
+  @Input() selectedUser: any = null; 
   @Output() closeForm = new EventEmitter<void>();
 
   profileForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    address: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     mobile_number: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
+    description: new FormControl(''),
+    telephone: new FormControl(''),
   });
 
   ngOnChanges(changes: SimpleChanges) {
@@ -44,8 +47,11 @@ export class UpdateUserComponent implements OnChanges {
     if (this.selectedUser) {
       this.profileForm.patchValue({
         name: this.selectedUser.name,
+        email: this.selectedUser.email,
+        mobile_number: this.selectedUser.mobile_number,
         address: this.selectedUser.address,
-        mobile_number: this.selectedUser.mobile_number
+        description: this.selectedUser.description,
+        telephone: this.selectedUser.telephone
       });
     }
   }
